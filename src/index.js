@@ -8,6 +8,8 @@ import constant from 'lodash/constant';
 import toInteger from 'lodash/toInteger';
 import clamp from 'lodash/clamp';
 
+const MAX_SAFE_INTEGER = 9007199254740991;
+
 /**
  * Create a delayed promise.
  *
@@ -16,13 +18,14 @@ import clamp from 'lodash/clamp';
  * @returns {Promise} The delayed promise.
  */
 export default function delayPromise(milliseconds, ...value) {
-  const ms = clamp(toInteger(milliseconds), Number.MAX_SAFE_INTEGER);
+  const ms = clamp(toInteger(milliseconds), MAX_SAFE_INTEGER);
 
   if (value.length) {
     const valueExecutor = function valueExecutor(arg) {
       return delayPromise(ms).then(constant(arg));
     };
 
+    /* eslint-disable-next-line compat/compat */
     return Promise.resolve(value[0]).then(valueExecutor);
   }
 
@@ -34,5 +37,6 @@ export default function delayPromise(milliseconds, ...value) {
     }
   };
 
+  /* eslint-disable-next-line compat/compat */
   return new Promise(timeoutExecutor);
 }

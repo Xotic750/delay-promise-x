@@ -1,13 +1,13 @@
 /*!
 {
   "copywrite": "Copyright (c) 2018-present",
-  "date": "2018-11-25T01:39:57.865Z",
+  "date": "2019-07-09T23:37:28.802Z",
   "describe": "",
   "description": "Create a delayed promise.",
   "file": "delay-promise-x.js",
-  "hash": "7f0b35b3798d0e3d81d4",
+  "hash": "a27030d6b555fe02870f",
   "license": "MIT",
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
 */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -147,7 +147,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @copyright Copyright (c) 2018-present, Graham Fairweather
  * @module delayPromise
  */
-
+var MAX_SAFE_INTEGER = 9007199254740991;
 /**
  * Create a delayed promise.
  *
@@ -155,13 +155,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param {*} [value] - The value to be resolved with.
  * @returns {Promise} The delayed promise.
  */
+
 function delayPromise(milliseconds) {
-  var ms = (0, _clamp.default)((0, _toInteger.default)(milliseconds), Number.MAX_SAFE_INTEGER);
+  var ms = (0, _clamp.default)((0, _toInteger.default)(milliseconds), MAX_SAFE_INTEGER);
 
   if (arguments.length <= 1 ? 0 : arguments.length - 1) {
     var valueExecutor = function valueExecutor(arg) {
       return delayPromise(ms).then((0, _constant.default)(arg));
     };
+    /* eslint-disable-next-line compat/compat */
+
 
     return Promise.resolve(arguments.length <= 1 ? undefined : arguments[1]).then(valueExecutor);
   }
@@ -173,6 +176,8 @@ function delayPromise(milliseconds) {
       reject(error);
     }
   };
+  /* eslint-disable-next-line compat/compat */
+
 
   return new Promise(timeoutExecutor);
 }

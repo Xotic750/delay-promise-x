@@ -38,36 +38,41 @@ const dist = path.resolve(__dirname, 'dist');
 
 /**
  * Whether eslint should use the friendly formatter.
+ *
  * @type {boolean}
  */
 const USE_FRIENDLY_FORMATTER = false;
 
 /**
  * The NODE_ENV environment variable.
- * @type {!Object}
+ *
+ * @type {!object}
  */
 const {NODE_ENV} = process.env;
 
 /**
  * The production string.
+ *
  * @type {string}
  */
 const PRODUCTION = 'production';
 
 /**
  * The development string.
+ *
  * @type {string}
  */
 const DEVELOPMENT = 'development';
 
 /**
  * The default exclude regex.
+ *
  * @type {RegExp}
  */
 const DEFAULT_EXCLUDE_RX = /node_modules/;
 
 /**
- * @typedef {Object} envObject
+ * @typedef {object} envObject
  * @property {boolean} report - Run the webpack reporter.
  */
 /**
@@ -78,13 +83,15 @@ const DEFAULT_EXCLUDE_RX = /node_modules/;
  */
 module.exports = function generateConfig(env = {}) {
   /**
-   * The JSON content of `package.json`
-   * @type {!Object}
+   * The JSON content of `package.json`.
+   *
+   * @type {!object}
    */
   const PACKAGE = require('./package.json');
 
   /**
-   * The reference created bu git describe --dirty`
+   * The reference created bu git describe --dirty`.
+   *
    * @type {string}
    * @see {@link https://git-scm.com/docs/git-describe}
    */
@@ -95,6 +102,7 @@ module.exports = function generateConfig(env = {}) {
 
   /**
    * The date as of now.
+   *
    * @type {string}
    */
   const NOW = new Date().toISOString();
@@ -103,16 +111,16 @@ module.exports = function generateConfig(env = {}) {
     /**
      * This option controls if and how source maps are generated.
      *
-     * nosources-source-map - A SourceMap is created without the sourcesContent in it.
+     * Nosources-source-map - A SourceMap is created without the sourcesContent in it.
      * It can be used to map stack traces on the client without exposing all of the
      * source code. You can deploy the Source Map file to the web-server.
      *
-     * eval-source-map - Each module is executed with eval() and a SourceMap is added as
+     * Eval-source-map - Each module is executed with eval() and a SourceMap is added as
      * a DataUrl to the eval(). Initially it is slow, but it provides fast rebuild speed
      * and yields real files. Line numbers are correctly mapped since it gets mapped to
      * the original code. It yields the best quality SourceMaps for development.
      *
-     * source-map - A full SourceMap is emitted as a separate file. It adds a reference
+     * Source-map - A full SourceMap is emitted as a separate file. It adds a reference
      * comment to the bundle so development tools know where to find it.
      *
      * @type {string}
@@ -122,7 +130,8 @@ module.exports = function generateConfig(env = {}) {
 
     /**
      * Define the entry points for the application.
-     * @type {(string|array.<string>)}
+     *
+     * @type {(string|Array.<string>)}
      * @see {@link https://webpack.js.org/concepts/entry-points/}
      */
     entry: './src/index.js',
@@ -136,20 +145,21 @@ module.exports = function generateConfig(env = {}) {
      * boundaries, so that each module has a coherent design and a clear purpose within the overall
      * application.
      *
-     * webpack supports modules written in a variety of languages and preprocessors, via loaders.
+     * Webpack supports modules written in a variety of languages and preprocessors, via loaders.
      * Loaders describe to webpack how to process non-JavaScript modules and include these dependencies
      * into your bundles.
      *
-     * @type {!Object}
+     * @type {!object}
      * @see {@link https://webpack.js.org/configuration/module/#module-rules}
      */
     module: {
       /**
-       * @type {Array.<!Object>}
+       * @type {Array.<!object>}
        */
       rules: [
         /**
-         * Extract sourceMappingURL comments from modules and offer it to webpack
+         * Extract sourceMappingURL comments from modules and offer it to webpack.
+         *
          * @see {@link https://github.com/webpack-contrib/source-map-loader}
          */
         {
@@ -159,8 +169,9 @@ module.exports = function generateConfig(env = {}) {
         },
 
         /**
-         * eslint-loader options.
-         * @type {!Object}
+         * Eslint-loader options.
+         *
+         * @type {!object}
          * @see {@link https://github.com/MoOx/eslint-loader}
          */
         {
@@ -206,7 +217,8 @@ module.exports = function generateConfig(env = {}) {
     /**
      * Configuring the output configuration options tells webpack how to write the compiled
      * files to disk.
-     * @type {!Object}
+     *
+     * @type {!object}
      * @see {@link https://webpack.js.org/configuration/output/}
      */
     output: {
@@ -228,7 +240,8 @@ module.exports = function generateConfig(env = {}) {
     plugins: [
       /**
        * Use the shorthand version.
-       * @type {!Object}
+       *
+       * @type {!object}
        * @see {@link https://webpack.js.org/plugins/environment-plugin/}
        */
       new EnvironmentPlugin({
@@ -238,7 +251,8 @@ module.exports = function generateConfig(env = {}) {
 
       /**
        * Smaller lodash builds. We are not opting in to path feature.
-       * @type {!Object}
+       *
+       * @type {!object}
        * @see {@link https://github.com/lodash/lodash-webpack-plugin}
        */
       new LodashModuleReplacementPlugin({
@@ -247,7 +261,8 @@ module.exports = function generateConfig(env = {}) {
 
       /**
        * Adds a banner to the top of each generated chunk.
-       * @type {!Object}
+       *
+       * @type {!object}
        * @see {@link https://webpack.js.org/plugins/banner-`plugin/}
        */
       new BannerPlugin({
@@ -271,13 +286,15 @@ module.exports = function generateConfig(env = {}) {
 
     /**
      * These options change how modules are resolved.
-     * @type {!Object}
+     *
+     * @type {!object}
      * @see {@link https://webpack.js.org/configuration/resolve/}
      */
     resolve: {
       /**
        * Create aliases to import or require certain modules more easily.
-       * @type {!Object}
+       *
+       * @type {!object}
        * @see {@link https://webpack.js.org/configuration/resolve/#resolve-alias}
        */
       alias: {
