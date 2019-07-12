@@ -1,13 +1,14 @@
 /*!
 {
+  "author": "Graham Fairweather",
   "copywrite": "Copyright (c) 2018-present",
-  "date": "2019-07-09T23:37:28.802Z",
+  "date": "2019-07-12T11:23:18.771Z",
   "describe": "",
   "description": "Create a delayed promise.",
   "file": "delay-promise-x.js",
-  "hash": "a27030d6b555fe02870f",
+  "hash": "645a4defa93febb24115",
   "license": "MIT",
-  "version": "1.0.1"
+  "version": "1.0.2"
 }
 */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -16,9 +17,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["DelayPromise"] = factory();
+		exports["delayPromiseX"] = factory();
 	else
-		root["DelayPromise"] = factory();
+		root["delayPromiseX"] = factory();
 })((function () {
   'use strict';
 
@@ -119,71 +120,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = delayPromise;
-
-var _constant = _interopRequireDefault(__webpack_require__(1));
-
-var _toInteger = _interopRequireDefault(__webpack_require__(2));
-
-var _clamp = _interopRequireDefault(__webpack_require__(4));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * @file Utility that creates a delayed promise.
- * @copyright Copyright (c) 2018-present, Graham Fairweather
- * @module delayPromise
- */
-var MAX_SAFE_INTEGER = 9007199254740991;
-/**
- * Create a delayed promise.
- *
- * @param {(number|string)} milliseconds - The number of milliseconds to delay by.
- * @param {*} [value] - The value to be resolved with.
- * @returns {Promise} The delayed promise.
- */
-
-function delayPromise(milliseconds) {
-  var ms = (0, _clamp.default)((0, _toInteger.default)(milliseconds), MAX_SAFE_INTEGER);
-
-  if (arguments.length <= 1 ? 0 : arguments.length - 1) {
-    var valueExecutor = function valueExecutor(arg) {
-      return delayPromise(ms).then((0, _constant.default)(arg));
-    };
-    /* eslint-disable-next-line compat/compat */
-
-
-    return Promise.resolve(arguments.length <= 1 ? undefined : arguments[1]).then(valueExecutor);
-  }
-
-  var timeoutExecutor = function timeoutExecutor(resolve, reject) {
-    try {
-      setTimeout(resolve, ms);
-    } catch (error) {
-      reject(error);
-    }
-  };
-  /* eslint-disable-next-line compat/compat */
-
-
-  return new Promise(timeoutExecutor);
-}
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports) {
 
 /**
@@ -215,10 +156,10 @@ module.exports = constant;
 
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toFinite = __webpack_require__(3);
+var toFinite = __webpack_require__(4);
 
 /**
  * Converts `value` to an integer.
@@ -257,34 +198,7 @@ module.exports = toInteger;
 
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-/**
- * This method returns the first argument it receives.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {*} value Any value.
- * @returns {*} Returns `value`.
- * @example
- *
- * var object = { 'a': 1 };
- *
- * console.log(_.identity(object) === object);
- * // => true
- */
-function identity(value) {
-  return value;
-}
-
-module.exports = identity;
-
-
-/***/ }),
-/* 4 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseClamp = __webpack_require__(5),
@@ -326,6 +240,91 @@ function clamp(number, lower, upper) {
 }
 
 module.exports = clamp;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return delayPromise; });
+/* harmony import */ var lodash_constant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var lodash_constant__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_constant__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash_toInteger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var lodash_toInteger__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_toInteger__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash_clamp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
+/* harmony import */ var lodash_clamp__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_clamp__WEBPACK_IMPORTED_MODULE_2__);
+/**
+ * @file Utility that creates a delayed promise.
+ * @copyright Copyright (c) 2018-present, Graham Fairweather
+ * @module delayPromise
+ */
+
+
+
+var MAX_SAFE_INTEGER = 9007199254740991;
+/**
+ * Create a delayed promise.
+ *
+ * @param {(number|string)} milliseconds - The number of milliseconds to delay by.
+ * @param {*} [value] - The value to be resolved with.
+ * @returns {Promise} The delayed promise.
+ */
+
+function delayPromise(milliseconds) {
+  var ms = lodash_clamp__WEBPACK_IMPORTED_MODULE_2___default()(lodash_toInteger__WEBPACK_IMPORTED_MODULE_1___default()(milliseconds), MAX_SAFE_INTEGER);
+
+  if (arguments.length <= 1 ? 0 : arguments.length - 1) {
+    var valueExecutor = function valueExecutor(arg) {
+      return delayPromise(ms).then(lodash_constant__WEBPACK_IMPORTED_MODULE_0___default()(arg));
+    };
+    /* eslint-disable-next-line compat/compat */
+
+
+    return Promise.resolve(arguments.length <= 1 ? undefined : arguments[1]).then(valueExecutor);
+  }
+
+  var timeoutExecutor = function timeoutExecutor(resolve, reject) {
+    try {
+      setTimeout(resolve, ms);
+    } catch (error) {
+      reject(error);
+    }
+  };
+  /* eslint-disable-next-line compat/compat */
+
+
+  return new Promise(timeoutExecutor);
+}
+
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+/**
+ * This method returns the first argument it receives.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Util
+ * @param {*} value Any value.
+ * @returns {*} Returns `value`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ *
+ * console.log(_.identity(object) === object);
+ * // => true
+ */
+function identity(value) {
+  return value;
+}
+
+module.exports = identity;
 
 
 /***/ }),

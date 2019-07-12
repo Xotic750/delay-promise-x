@@ -1,4 +1,4 @@
-import delayPromise from 'src/index';
+import delayPromise from 'src/delay-promise-x';
 import identity from 'lodash/identity';
 
 describe('delayPromise', () => {

@@ -5,14 +5,15 @@
  */
 
 const path = require('path');
-const {BannerPlugin, EnvironmentPlugin} = require('webpack');
-const merge = require('webpack-merge');
 const childProcess = require('child_process');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const TerserPlugin = require('terser-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const eslintFriendlyFormatter = require('eslint-friendly-formatter');
-const stylish = require('eslint/lib/formatters/stylish');
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+const camelCase = require('lodash/camelCase');
+const PACKAGE = require('./package.json');
 
 const getGlobal = function() {
   'use strict';
@@ -32,16 +33,9 @@ const getGlobal = function() {
   return Function('return this')();
 };
 
-const filename = 'delay-promise-x';
-const library = 'DelayPromise';
+const filename = PACKAGE.name;
+const library = camelCase(filename);
 const dist = path.resolve(__dirname, 'dist');
-
-/**
- * Whether eslint should use the friendly formatter.
- *
- * @type {boolean}
- */
-const USE_FRIENDLY_FORMATTER = false;
 
 /**
  * The NODE_ENV environment variable.
@@ -65,30 +59,20 @@ const PRODUCTION = 'production';
 const DEVELOPMENT = 'development';
 
 /**
- * The default exclude regex.
+ * The default include paths.
  *
- * @type {RegExp}
+ * @type {string}
  */
-const DEFAULT_EXCLUDE_RX = /node_modules/;
+const DEFAULT_INCLUDE = [path.resolve(__dirname, 'src'), path.resolve(__dirname, '__tests__')];
 
-/**
- * @typedef {object} envObject
- * @property {boolean} report - Run the webpack reporter.
- */
 /**
  * Allows you to pass in as many environment variables as you like using --env.
  * See {@link http://webpack.js.org/guides/environment-variables}.
  *
- * @param {envObject} [env={}] - The env object.
+ * @param {!object} [env={}] - The env object.
+ * @returns {undefined} Default.
  */
-module.exports = function generateConfig(env = {}) {
-  /**
-   * The JSON content of `package.json`.
-   *
-   * @type {!object}
-   */
-  const PACKAGE = require('./package.json');
-
+module.exports = function generateConfig(env) {
   /**
    * The reference created bu git describe --dirty`.
    *
@@ -131,10 +115,10 @@ module.exports = function generateConfig(env = {}) {
     /**
      * Define the entry points for the application.
      *
-     * @type {(string|Array.<string>)}
+     * @type {Array.<string>}
      * @see {@link https://webpack.js.org/concepts/entry-points/}
      */
-    entry: './src/index.js',
+    entry: PACKAGE.module,
 
     mode: NODE_ENV === PRODUCTION ? PRODUCTION : DEVELOPMENT,
 
@@ -149,13 +133,10 @@ module.exports = function generateConfig(env = {}) {
      * Loaders describe to webpack how to process non-JavaScript modules and include these dependencies
      * into your bundles.
      *
-     * @type {!object}
+     * @type {Array.<!object>}
      * @see {@link https://webpack.js.org/configuration/module/#module-rules}
      */
     module: {
-      /**
-       * @type {Array.<!object>}
-       */
       rules: [
         /**
          * Extract sourceMappingURL comments from modules and offer it to webpack.
@@ -176,14 +157,14 @@ module.exports = function generateConfig(env = {}) {
          */
         {
           enforce: 'pre',
-          exclude: DEFAULT_EXCLUDE_RX,
+          include: DEFAULT_INCLUDE,
           loader: 'eslint-loader',
           options: {
             emitError: true,
             emitWarning: false,
             failOnError: true,
             failOnWarning: false,
-            formatter: USE_FRIENDLY_FORMATTER ? eslintFriendlyFormatter : stylish,
+            formatter: eslintFriendlyFormatter,
             quiet: true,
           },
           test: /\.(js|json)$/,
@@ -195,7 +176,7 @@ module.exports = function generateConfig(env = {}) {
          * @see {@link https://webpack.js.org/loaders/babel-loader/}
          */
         {
-          exclude: DEFAULT_EXCLUDE_RX,
+          include: DEFAULT_INCLUDE,
           loader: 'babel-loader',
           test: /\.js$/,
         },
@@ -244,7 +225,7 @@ module.exports = function generateConfig(env = {}) {
        * @type {!object}
        * @see {@link https://webpack.js.org/plugins/environment-plugin/}
        */
-      new EnvironmentPlugin({
+      new webpack.EnvironmentPlugin({
         DEBUG: false, // use 'false' unless process.env.DEBUG is defined.
         NODE_ENV: DEVELOPMENT, // use 'development' unless process.env.NODE_ENV is defined.
       }),
@@ -263,19 +244,20 @@ module.exports = function generateConfig(env = {}) {
        * Adds a banner to the top of each generated chunk.
        *
        * @type {!object}
-       * @see {@link https://webpack.js.org/plugins/banner-`plugin/}
+       * @see {@link https://webpack.js.org/plugins/banner-plugin/}
        */
-      new BannerPlugin({
+      new webpack.BannerPlugin({
         banner: `/*!\n${JSON.stringify(
           {
-            copywrite: `${PACKAGE.copyright}`,
-            date: `${NOW}`,
-            describe: `${DESCRIBE}`,
-            description: `${PACKAGE.description}`,
+            author: PACKAGE.author.name,
+            copywrite: PACKAGE.copyright,
+            date: NOW,
+            describe: DESCRIBE,
+            description: PACKAGE.description,
             file: '[file]',
             hash: '[hash]',
-            license: `${PACKAGE.license}`,
-            version: `${PACKAGE.version}`,
+            license: PACKAGE.license,
+            version: PACKAGE.version,
           },
           null,
           2,
@@ -299,8 +281,8 @@ module.exports = function generateConfig(env = {}) {
        */
       alias: {
         RootDir: path.resolve(__dirname, '.'),
-        dist: path.resolve(__dirname, 'dist'),
-        src: path.resolve(__dirname, 'src'),
+        dist: path.resolve(__dirname, './dist'),
+        src: path.resolve(__dirname, './src'),
       },
       extensions: ['.js', '.json'],
     },
@@ -328,10 +310,10 @@ module.exports = function generateConfig(env = {}) {
      * @see {@link https://github.com/webpack-contrib/webpack-bundle-analyzer}
      */
     plugins: [
-      new UglifyJsPlugin({
+      new TerserPlugin({
         parallel: true,
         sourceMap: true,
-        uglifyOptions: {
+        terserOptions: {
           ecma: 5,
         },
       }),
