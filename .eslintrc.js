@@ -1,27 +1,24 @@
 /**
  * @file Manages the root configuration settings for project wide eslint.
- * @copyright Copyright (c) 2017-present, ProReNata AB
  * @module eslint/root/configuration
- * @version 1.0.0
  * @see {@link https://eslint.org} for further information.
  */
 
-/** Configuration. */
 module.exports = {
   /**
-   * @see {@link https://eslint.org/docs/user-guide/configuring#specifying-environments|env}
+   * @see {@link https://eslint.org/docs/user-guide/configuring#specifying-environments}
    */
   env: {},
 
   /**
-   * @see {@link https://eslint.org/docs/user-guide/configuring#extending-configuration-files|extends}
+   * @see {@link https://eslint.org/docs/user-guide/configuring#extending-configuration-files}
    */
   extends: ['@prorenata/eslint-config-vue'],
 
   /**
    * You can define global variables here.
    *
-   * @see {@link https://eslint.org/docs/user-guide/configuring#specifying-globals|globals}
+   * @see {@link https://eslint.org/docs/user-guide/configuring#specifying-globals}
    */
   globals: {},
 
@@ -29,47 +26,36 @@ module.exports = {
    * Sometimes a more fine-controlled configuration is necessary, for example if the configuration
    * for files within the same directory has to be different.
    *
-   * @see {@link https://eslint.org/docs/user-guide/configuring#configuration-based-on-glob-patterns|overrides}
+   * @see {@link https://eslint.org/docs/user-guide/configuring#configuration-based-on-glob-patterns}
    */
-  overrides: [
-    {
-      files: ['webpack.*.js'],
-      rules: {
-        'func-names': 'off',
-        'no-new-func': 'off',
-        'no-restricted-globals': 'off',
-      },
-    },
-  ],
+  overrides: [],
 
   /**
-   * @see {@link https://eslint.org/docs/user-guide/configuring#specifying-parser-options|parserOptions}
+   * @see {@link https://eslint.org/docs/user-guide/configuring#specifying-parser-options}
    */
   parserOptions: {},
 
   /**
-   * @see {@link https://eslint.org/docs/user-guide/configuring#configuring-plugins|plugins}
+   * @see {@link https://eslint.org/docs/user-guide/configuring#configuring-plugins}
    */
   plugins: [],
 
   /**
-   * @see {@link https://eslint.org/docs/user-guide/configuring#configuration-cascading-and-hierarchy|root}
+   * @see {@link https://eslint.org/docs/user-guide/configuring#configuration-cascading-and-hierarchy}
    */
   root: true,
 
   /**
-   * @see {@link https://eslint.org/docs/user-guide/configuring#configuring-rules|rules
+   * @see {@link https://eslint.org/docs/user-guide/configuring#configuring-rules}
    */
   rules: {
-    'vue/require-prop-type-constructor': 'off', // New rule currently buggy in 5.0.0.beta.3
+    'jsdoc/no-undefined-types': ['error', {definedTypes: ['NumberConstructor', 'StringConstructor']}],
   },
 
   /**
    * Webpack-literate module resolution plugin for eslint-plugin-import.
    *
-   * @see {@link https://www.npmjs.com/package/eslint-import-resolver-webpack|plugin}
+   * @see {@link https://www.npmjs.com/package/eslint-import-resolver-webpack}
    */
-  settings: {
-    polyfills: ['promises'],
-  },
+  settings: {},
 };

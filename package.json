@@ -1,17 +1,23 @@
 {
   "name": "delay-promise-x",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Create a delayed promise.",
   "homepage": "https://github.com/Xotic750/delay-promise-x.git",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Xotic750/delay-promise-x.git"
+  "author": {
+    "name": "Graham Fairweather",
+    "email": "xotic750@gmail.com"
   },
-  "bugs": {
-    "url": "https://github.com/Xotic750/delay-promise-x/issues"
-  },
-  "main": "dist/delay-promise-x.js",
+  "copyright": "Copyright (c) 2018-present",
+  "keywords": [
+    "Promise",
+    "delay"
+  ],
+  "files": [
+    "dist",
+    "src"
+  ],
   "module": "dist/delay-promise-x.esm.js",
+  "main": "dist/delay-promise-x.js",
   "scripts": {
     "build:esm": "mkdirp dist && babel -s true --env-name esm src/delay-promise-x.js -o dist/delay-promise-x.esm.js",
     "build:base": "webpack --bail --progress --profile --colors",
@@ -30,20 +36,14 @@
     "test:ci": "npm run test -- --ci --maxWorkers=2",
     "test:coverage": "npm run test -- --coverage"
   },
-  "author": {
-    "name": "Graham Fairweather",
-    "email": "xotic750@gmail.com"
-  },
-  "copyright": "Copyright (c) 2018-present",
   "license": "MIT",
-  "keywords": [
-    "Promise",
-    "delay"
-  ],
-  "files": [
-    "dist",
-    "src"
-  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Xotic750/delay-promise-x.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Xotic750/delay-promise-x/issues"
+  },
   "dependencies": {
     "lodash": "^4.17.14"
   },
@@ -59,7 +59,7 @@
     "@babel/plugin-transform-runtime": "^7.5.0",
     "@babel/preset-env": "^7.5.4",
     "@babel/runtime": "^7.5.4",
-    "@prorenata/eslint-config-vue": "^1.13.5",
+    "@prorenata/eslint-config-vue": "^1.13.6",
     "@types/jest": "^24.0.15",
     "@types/node": "^12.6.2",
     "babel-core": "^7.0.0-0",
@@ -83,7 +83,7 @@
     "eslint-plugin-html": "^6.0.0",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-jest": "^22.7.2",
-    "eslint-plugin-jsdoc": "^15.3.2",
+    "eslint-plugin-jsdoc": "^15.3.5",
     "eslint-plugin-json": "^1.4.0",
     "eslint-plugin-lodash": "^5.1.0",
     "eslint-plugin-no-use-extend-native": "^0.4.1",
@@ -99,6 +99,7 @@
     "jest-cli": "^24.8.0",
     "jest-file": "^1.0.0",
     "jsdoc-to-markdown": "^5.0.0",
+    "lodash": "^4.17.14",
     "lodash-webpack-plugin": "^0.11.5",
     "mkdirp": "^0.5.1",
     "node-notifier": "^5.4.0",
@@ -119,6 +120,7 @@
     "npm": "6.4.1"
   },
   "browserslist": [
+    "> 1%",
     "Explorer >= 9"
   ]
 }
