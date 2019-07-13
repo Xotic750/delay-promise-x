@@ -1,6 +1,6 @@
 {
   "name": "delay-promise-x",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Create a delayed promise.",
   "homepage": "https://github.com/Xotic750/delay-promise-x.git",
   "author": {
@@ -99,7 +99,6 @@
     "jest-cli": "^24.8.0",
     "jest-file": "^1.0.0",
     "jsdoc-to-markdown": "^5.0.0",
-    "lodash": "^4.17.14",
     "lodash-webpack-plugin": "^0.11.5",
     "mkdirp": "^0.5.1",
     "node-notifier": "^5.4.0",
@@ -120,7 +119,6 @@
     "npm": "6.4.1"
   },
   "browserslist": [
-    "> 1%",
-    "Explorer >= 9"
+    "> 1%"
   ]
 }
