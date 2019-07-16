@@ -17,12 +17,10 @@ describe('delayPromise', () => {
     it("should resolve follower promise's value", async () => {
       expect.assertions(1);
       let resolveF = null;
-      /* eslint-disable-next-line compat/compat */
       const f = new Promise((resolve) => {
         resolveF = resolve;
       });
 
-      /* eslint-disable-next-line compat/compat */
       const v = new Promise((resolve) => {
         setTimeout(() => {
           resolve(3);
