@@ -15,7 +15,7 @@ var MAX_SAFE_INTEGER = 9007199254740991;
  * @returns {Promise} The delayed promise.
  */
 
-export default function delayPromise(milliseconds) {
+var delayPromise = function delayPromise(milliseconds) {
   var ms = clamp(toInteger(milliseconds), MAX_SAFE_INTEGER);
 
   if (arguments.length <= 1 ? 0 : arguments.length - 1) {
@@ -39,6 +39,8 @@ export default function delayPromise(milliseconds) {
 
 
   return new Promise(timeoutExecutor);
-}
+};
+
+export default delayPromise;
 
 //# sourceMappingURL=delay-promise-x.esm.js.map

@@ -2,13 +2,13 @@
 {
   "author": "Graham Fairweather",
   "copywrite": "Copyright (c) 2018-present",
-  "date": "2019-07-16T21:18:08.520Z",
+  "date": "2019-07-17T16:54:12.832Z",
   "describe": "",
   "description": "Create a delayed promise.",
   "file": "delay-promise-x.js",
-  "hash": "645a4defa93febb24115",
+  "hash": "3bdc898d84bec7f33982",
   "license": "MIT",
-  "version": "1.0.10"
+  "version": "1.0.11"
 }
 */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -248,7 +248,6 @@ module.exports = clamp;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return delayPromise; });
 /* harmony import */ var lodash_constant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var lodash_constant__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_constant__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var lodash_toInteger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
@@ -272,7 +271,7 @@ var MAX_SAFE_INTEGER = 9007199254740991;
  * @returns {Promise} The delayed promise.
  */
 
-function delayPromise(milliseconds) {
+var delayPromise = function delayPromise(milliseconds) {
   var ms = lodash_clamp__WEBPACK_IMPORTED_MODULE_2___default()(lodash_toInteger__WEBPACK_IMPORTED_MODULE_1___default()(milliseconds), MAX_SAFE_INTEGER);
 
   if (arguments.length <= 1 ? 0 : arguments.length - 1) {
@@ -296,7 +295,9 @@ function delayPromise(milliseconds) {
 
 
   return new Promise(timeoutExecutor);
-}
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (delayPromise);
 
 
 

@@ -17,7 +17,7 @@ const MAX_SAFE_INTEGER = 9007199254740991;
  * @param {*} [value] - The value to be resolved with.
  * @returns {Promise} The delayed promise.
  */
-export default function delayPromise(milliseconds, ...value) {
+const delayPromise = function delayPromise(milliseconds, ...value) {
   const ms = clamp(toInteger(milliseconds), MAX_SAFE_INTEGER);
 
   if (value.length) {
@@ -39,4 +39,6 @@ export default function delayPromise(milliseconds, ...value) {
 
   /* eslint-disable-next-line compat/compat */
   return new Promise(timeoutExecutor);
-}
+};
+
+export default delayPromise;
