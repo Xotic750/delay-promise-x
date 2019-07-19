@@ -1,6 +1,6 @@
 {
   "name": "delay-promise-x",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Create a delayed promise.",
   "homepage": "https://github.com/Xotic750/delay-promise-x.git",
   "author": {
@@ -45,7 +45,7 @@
     "url": "https://github.com/Xotic750/delay-promise-x/issues"
   },
   "dependencies": {
-    "lodash": "^4.17.14"
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
