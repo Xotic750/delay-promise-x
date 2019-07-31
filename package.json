@@ -1,6 +1,6 @@
 {
   "name": "delay-promise-x",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "description": "Create a delayed promise.",
   "homepage": "https://github.com/Xotic750/delay-promise-x.git",
   "author": {
@@ -58,7 +58,7 @@
     "@babel/runtime": "^7.5.5",
     "@types/jest": "^24.0.16",
     "@types/node": "^12.6.8",
-    "@xotic750/eslint-config-recommended": "^1.0.4",
+    "@xotic750/eslint-config-recommended": "^1.0.5",
     "babel-core": "^7.0.0-0",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
