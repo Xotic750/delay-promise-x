@@ -4,11 +4,16 @@
  * @module delayPromise
  */
 
-import constant from 'lodash/constant';
-import toInteger from 'lodash/toInteger';
-import clamp from 'lodash/clamp';
+import toInteger from 'to-integer-x';
+import clamp from 'math-clamp-x';
+import PromiseCtr from '@xotic750/promise-x';
+import attempt from 'attempt-x';
+import defineProperty from 'object-define-property-x';
+import assertIsFunction from 'assert-is-function-x';
 
 const MAX_SAFE_INTEGER = 9007199254740991;
+const nativeSetTimeout = setTimeout;
+let $Promise = PromiseCtr;
 
 /**
  * Create a delayed promise.
@@ -17,28 +22,34 @@ const MAX_SAFE_INTEGER = 9007199254740991;
  * @param {*} [value] - The value to be resolved with.
  * @returns {Promise} The delayed promise.
  */
-const delayPromise = function delayPromise(milliseconds, ...value) {
+const delayPromise = function delayPromise(milliseconds, value) {
   const ms = clamp(toInteger(milliseconds), MAX_SAFE_INTEGER);
 
-  if (value.length) {
-    const valueExecutor = function valueExecutor(arg) {
-      return delayPromise(ms).then(constant(arg));
-    };
+  return arguments.length > 1
+    ? $Promise.resolve(value).then(function valueExecutor(arg) {
+        /* eslint-disable-next-line promise/no-nesting */
+        return delayPromise(ms).then(function returnArg() {
+          return arg;
+        });
+      })
+    : new $Promise(function timeoutExecutor(resolve, reject) {
+        const attemptResult = attempt(nativeSetTimeout, resolve, ms);
 
-    /* eslint-disable-next-line compat/compat */
-    return Promise.resolve(value[0]).then(valueExecutor);
-  }
-
-  const timeoutExecutor = function timeoutExecutor(resolve, reject) {
-    try {
-      setTimeout(resolve, ms);
-    } catch (error) {
-      reject(error);
-    }
-  };
-
-  /* eslint-disable-next-line compat/compat */
-  return new Promise(timeoutExecutor);
+        /* istanbul ignore if */
+        if (attemptResult.threw) {
+          reject(attemptResult.value);
+        }
+      });
 };
+
+defineProperty(delayPromise, 'Promise', {
+  enumerable: true,
+  get() {
+    return $Promise;
+  },
+  set(value) {
+    $Promise = assertIsFunction(value);
+  },
+});
 
 export default delayPromise;

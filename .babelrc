@@ -34,7 +34,7 @@
       {
         "corejs": false,
         "helpers": false,
-        "regenerator": true,
+        "regenerator": false,
         "useESModules": false
       }
     ]

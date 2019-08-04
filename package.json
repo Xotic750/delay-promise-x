@@ -46,7 +46,12 @@
     "url": "https://github.com/Xotic750/delay-promise-x/issues"
   },
   "dependencies": {
-    "lodash": "^4.17.15"
+    "@xotic750/promise-x": "^1.0.0",
+    "assert-is-function-x": "^3.0.19",
+    "attempt-x": "^2.0.23",
+    "math-clamp-x": "^3.0.23",
+    "object-define-property-x": "^5.0.17",
+    "to-integer-x": "^4.0.29"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -57,7 +62,7 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/runtime": "^7.5.5",
     "@types/jest": "^24.0.16",
-    "@types/node": "^12.6.8",
+    "@types/node": "^12.6.9",
     "@xotic750/eslint-config-recommended": "^1.0.5",
     "babel-core": "^7.0.0-0",
     "babel-eslint": "^10.0.2",
@@ -88,6 +93,7 @@
     "jest": "^24.8.0",
     "jest-cli": "^24.8.0",
     "jest-file": "^1.0.0",
+    "lodash": "^4.17.15",
     "lodash-webpack-plugin": "^0.11.5",
     "mkdirp": "^0.5.1",
     "nodemon": "^1.19.1",
@@ -97,7 +103,7 @@
     "strip-ansi": "^5.2.0",
     "terser-webpack-plugin": "^1.4.1",
     "typescript": "^3.5.3",
-    "webpack": "^4.38.0",
+    "webpack": "^4.39.1",
     "webpack-bundle-analyzer": "^3.4.1",
     "webpack-cli": "^3.3.6",
     "webpack-merge": "^4.2.1"

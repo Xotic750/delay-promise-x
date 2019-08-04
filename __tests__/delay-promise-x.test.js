@@ -1,27 +1,36 @@
+import PromiseCtr from '@xotic750/promise-x';
 import delayPromise from 'src/delay-promise-x';
-import identity from 'lodash/identity';
+
+const failIfThrows = function failIfThrows(done) {
+  return function(e) {
+    done(e || new Error());
+  };
+};
 
 describe('delayPromise', () => {
-  describe('delay', () => {
-    it('should delay after resolution', async () => {
-      expect.assertions(1);
-      const value = await delayPromise(100, delayPromise(200, 'what'))
-        .then(identity)
-        .catch((error) => {
-          throw error;
-        });
+  it('should delay after resolution', () => {
+    expect.assertions(1);
 
-      expect(value).toBe('what');
+    return new PromiseCtr((done) => {
+      return delayPromise(100, delayPromise(200, 'what'))
+        .then((value) => {
+          expect(value).toBe('what');
+          done();
+        }, failIfThrows(done))
+        .catch(failIfThrows(done));
     });
+  });
 
-    it("should resolve follower promise's value", async () => {
-      expect.assertions(1);
+  it("should resolve follower promise's value", () => {
+    expect.assertions(1);
+
+    return new PromiseCtr((done) => {
       let resolveF = null;
-      const f = new Promise((resolve) => {
+      const f = new PromiseCtr((resolve) => {
         resolveF = resolve;
       });
 
-      const v = new Promise((resolve) => {
+      const v = new PromiseCtr((resolve) => {
         setTimeout(() => {
           resolve(3);
         }, 200);
@@ -29,13 +38,29 @@ describe('delayPromise', () => {
 
       resolveF(v);
 
-      const value = await delayPromise(100, f)
-        .then(identity)
-        .catch((error) => {
-          throw error;
-        });
-
-      expect(value).toBe(3);
+      return delayPromise(100, f)
+        .then((value) => {
+          expect(value).toBe(3);
+          done();
+        }, failIfThrows(done))
+        .catch(failIfThrows(done));
     });
+  });
+
+  it('get Promise constructor used', function() {
+    expect.assertions(1);
+    expect(delayPromise.Promise).toBe(PromiseCtr);
+  });
+
+  it('set Promise constructor used', function() {
+    expect.assertions(2);
+    expect(() => {
+      delayPromise.Promise = null;
+    }).toThrow(TypeError);
+
+    const Ctr = function Ctr() {};
+
+    delayPromise.Promise = Ctr;
+    expect(delayPromise.Promise).toBe(Ctr);
   });
 });
