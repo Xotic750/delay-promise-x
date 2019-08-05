@@ -2,13 +2,13 @@
 {
   "author": "Graham Fairweather",
   "copywrite": "Copyright (c) 2018-present",
-  "date": "2019-08-05T19:00:23.183Z",
+  "date": "2019-08-05T21:27:59.614Z",
   "describe": "",
   "description": "Create a delayed promise.",
   "file": "delay-promise-x.js",
-  "hash": "dcb4835e8c3336dcf172",
+  "hash": "fa6d97bda7ae63748ccf",
   "license": "MIT",
-  "version": "1.0.27"
+  "version": "1.0.28"
 }
 */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -2054,43 +2054,31 @@ var splitIfBoxedBug = function splitIfBoxedBug(value) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export implementation */
 /* harmony import */ var attempt_x__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var to_string_tag_x__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
-var _this = undefined;
-
-function _newArrowCheck(innerThis, boundThis) { if (innerThis !== boundThis) { throw new TypeError("Cannot instantiate an arrow function"); } }
 
 
-
-var nativeIsArray = [].isArray;
-var isArrayNative = typeof nativeIsArray === 'function' && nativeIsArray;
-var testRes = isArrayNative && Object(attempt_x__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(function () {
-  _newArrowCheck(this, _this);
-
-  return isArrayNative([]) === true && isArrayNative({
+var nia = [].isArray;
+var nativeIsArray = typeof nia === 'function' && nia;
+var testResult = Object(attempt_x__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(function attemptee() {
+  return nativeIsArray([]) === true && nativeIsArray({
     length: 0
   }) === false;
-}.bind(undefined));
+});
+var isWorking = testResult.threw === false && testResult.value === true;
+var implementation = function isArray(value) {
+  return Object(to_string_tag_x__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(value) === '[object Array]';
+};
+/**
+ * Determines whether the passed value is an Array.
+ *
+ * @param {*} value - The value to test.
+ * @returns {boolean} - True if an array; otherwise false.
+ */
 
-var isArrayFn = function iife() {
-  if (testRes && testRes.threw === false && testRes.value === true) {
-    return isArrayNative;
-  }
-  /**
-   * The isArray() function determines whether the passed value is an Array.
-   *
-   * @function isArray
-   * @param {*} [value] - The object to be checked..
-   * @returns {boolean} `true` if the object is an Array; otherwise, `false`.
-   */
-
-
-  return function isArray(value) {
-    return Object(to_string_tag_x__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(value) === '[object Array]';
-  };
-}();
-
-/* harmony default export */ __webpack_exports__["a"] = (isArrayFn);
+var isArray = isWorking ? nativeIsArray : implementation;
+/* harmony default export */ __webpack_exports__["a"] = (isArray);
 
 
 
@@ -3897,6 +3885,7 @@ var is_primitive = __webpack_require__(3);
 var is_primitive_default = /*#__PURE__*/__webpack_require__.n(is_primitive);
 
 // CONCATENATED MODULE: ./node_modules/bind-x/dist/bind-x.esm.js
+/* unused harmony export implementation */
 var _this = undefined;
 
 function _newArrowCheck(innerThis, boundThis) { if (innerThis !== boundThis) { throw new TypeError("Cannot instantiate an arrow function"); } }
@@ -3960,6 +3949,78 @@ if (nativeBind) {
     }
   }
 }
+/* eslint-disable-next-line no-unused-vars */
+
+
+var patchedBind = function bind(target, thisArg) {
+  /* eslint-disable-next-line prefer-rest-params */
+  return nativeBind.apply(Object(assert_is_function_x_esm["a" /* default */])(target), array_slice_x_esm(arguments, 1));
+};
+
+var bind_x_esm_concat = function concat(a, b) {
+  var aLength = a.length;
+  var bLength = b.length;
+  var result = array_slice_x_esm(a);
+  result.length += bLength;
+
+  for (var index = 0; index < bLength; index += 1) {
+    result[aLength + index] = b[index];
+  }
+
+  return result;
+};
+/* eslint-disable-next-line lodash/prefer-noop */
+
+
+var Empty = function Empty() {};
+
+var implementation = function bind(target, thisArg) {
+  Object(assert_is_function_x_esm["a" /* default */])(target);
+  /* eslint-disable-next-line prefer-rest-params */
+
+  var args = array_slice_x_esm(arguments, 2);
+  var bound;
+
+  var binder = function _binder() {
+    /* eslint-disable-next-line babel/no-invalid-this */
+    if (this instanceof bound) {
+      /* eslint-disable-next-line babel/no-invalid-this,prefer-rest-params */
+      var result = target.apply(this, bind_x_esm_concat(args, arguments));
+      /* eslint-disable-next-line babel/no-invalid-this */
+
+      return is_primitive_default()(result) ? this : result;
+    }
+    /* eslint-disable-next-line prefer-rest-params */
+
+
+    return target.apply(thisArg, bind_x_esm_concat(args, arguments));
+  };
+
+  var boundLength = target.length - args.length;
+
+  if (boundLength < 0) {
+    boundLength = 0;
+  }
+
+  var lastIndex = boundLength - 1;
+  var boundArgs = '';
+
+  for (var index = 0; index < boundLength; index += 1) {
+    boundArgs += "$_".concat(index, "_$").concat(index < lastIndex ? ',' : '');
+  }
+  /* eslint-disable-next-line no-new-func */
+
+
+  bound = Function('binder', 'slice', "return function (".concat(boundArgs, "){ return binder.apply(this,slice(arguments)); }"))(binder, array_slice_x_esm);
+
+  if (target.prototype) {
+    Empty.prototype = target.prototype;
+    bound.prototype = new Empty();
+    Empty.prototype = null;
+  }
+
+  return bound;
+};
 /**
  * The bind() method creates a new function that, when called, has its this
  * keyword set to the provided value, with a given sequence of arguments
@@ -3975,84 +4036,8 @@ if (nativeBind) {
  * @returns {Function} The bound function.
  */
 
-
-var $bind;
-
-if (isWorking) {
-  /* eslint-disable-next-line no-unused-vars */
-  $bind = function bind(target, thisArg) {
-    /* eslint-disable-next-line prefer-rest-params */
-    return nativeBind.apply(Object(assert_is_function_x_esm["a" /* default */])(target), array_slice_x_esm(arguments, 1));
-  };
-} else {
-  var bind_x_esm_concat = function concat(a, b) {
-    var aLength = a.length;
-    var bLength = b.length;
-    var result = array_slice_x_esm(a);
-    result.length += bLength;
-
-    for (var index = 0; index < bLength; index += 1) {
-      result[aLength + index] = b[index];
-    }
-
-    return result;
-  };
-  /* eslint-disable-next-line lodash/prefer-noop */
-
-
-  var Empty = function Empty() {};
-
-  $bind = function bind(target, thisArg) {
-    Object(assert_is_function_x_esm["a" /* default */])(target);
-    /* eslint-disable-next-line prefer-rest-params */
-
-    var args = array_slice_x_esm(arguments, 2);
-    var bound;
-
-    var binder = function _binder() {
-      /* eslint-disable-next-line babel/no-invalid-this */
-      if (this instanceof bound) {
-        /* eslint-disable-next-line babel/no-invalid-this,prefer-rest-params */
-        var result = target.apply(this, bind_x_esm_concat(args, arguments));
-        /* eslint-disable-next-line babel/no-invalid-this */
-
-        return is_primitive_default()(result) ? this : result;
-      }
-      /* eslint-disable-next-line prefer-rest-params */
-
-
-      return target.apply(thisArg, bind_x_esm_concat(args, arguments));
-    };
-
-    var boundLength = target.length - args.length;
-
-    if (boundLength < 0) {
-      boundLength = 0;
-    }
-
-    var lastIndex = boundLength - 1;
-    var boundArgs = '';
-
-    for (var index = 0; index < boundLength; index += 1) {
-      boundArgs += "$_".concat(index, "_$").concat(index < lastIndex ? ',' : '');
-    }
-    /* eslint-disable-next-line no-new-func */
-
-
-    bound = Function('binder', 'slice', "return function (".concat(boundArgs, "){ return binder.apply(this,slice(arguments)); }"))(binder, array_slice_x_esm);
-
-    if (target.prototype) {
-      Empty.prototype = target.prototype;
-      bound.prototype = new Empty();
-      Empty.prototype = null;
-    }
-
-    return bound;
-  };
-}
-
-var libBind = $bind;
-/* harmony default export */ var bind_x_esm = __webpack_exports__["a"] = (libBind);
+var $bind = isWorking ? patchedBind : implementation;
+/* harmony default export */ var bind_x_esm = __webpack_exports__["a"] = ($bind);
 
 
 
