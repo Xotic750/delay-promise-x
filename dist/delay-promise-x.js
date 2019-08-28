@@ -2,13 +2,13 @@
 {
   "author": "Graham Fairweather",
   "copywrite": "Copyright (c) 2018-present",
-  "date": "2019-08-28T15:57:30.136Z",
+  "date": "2019-08-28T18:00:37.335Z",
   "describe": "",
   "description": "Create a delayed promise.",
   "file": "delay-promise-x.js",
   "hash": "b45616d0e3d6986692e2",
   "license": "MIT",
-  "version": "1.1.1"
+  "version": "1.1.2"
 }
 */
 (function webpackUniversalModuleDefinition(root, factory) {
