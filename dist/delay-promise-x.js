@@ -2,7 +2,7 @@
 {
   "author": "Graham Fairweather",
   "copywrite": "Copyright (c) 2018-present",
-  "date": "2019-08-28T18:00:37.335Z",
+  "date": "2019-08-30T22:43:43.413Z",
   "describe": "",
   "description": "Create a delayed promise.",
   "file": "delay-promise-x.js",
